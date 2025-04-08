@@ -23,7 +23,7 @@
                                 <h6 class="title">Categories</h6>
                             </a>
                         </header>
-                        <div class="filter-content collapse show" id="collapse_1" style="">
+                        <div class="filter-content collapse show" id="collapse_1">
                             <div class="card-body">
 
                                 <ul class="list-menu">
@@ -33,9 +33,9 @@
                                     {% endfor %}
                                 </ul>
 
-                            </div> 
+                            </div>
                         </div>
-                    </article> 
+                    </article>
                     <article class="filter-group">
                         <header class="card-header">
                             <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
@@ -43,7 +43,7 @@
                                 <h6 class="title">Sizes </h6>
                             </a>
                         </header>
-                        <div class="filter-content collapse show" id="collapse_4" style="">
+                        <div class="filter-content collapse show" id="collapse_4">
                             <div class="card-body">
                                 <label class="checkbox-btn">
                                     <input type="checkbox">
@@ -66,7 +66,7 @@
                                 </label>
                             </div>
                         </div>
-                    </article> 
+                    </article>
 
                     <article class="filter-group">
                         <header class="card-header">
@@ -75,7 +75,7 @@
                                 <h6 class="title">Price range </h6>
                             </a>
                         </header>
-                        <div class="filter-content collapse show" id="collapse_3" style="">
+                        <div class="filter-content collapse show" id="collapse_3">
                             <div class="card-body">
 
                                 <div class="form-row">
@@ -104,16 +104,16 @@
                                             <option value="2000">$2000+</option>
                                         </select>
                                     </div>
-                                </div> 
+                                </div>
                                 <button class="btn btn-block btn-primary">Apply</button>
                             </div>
                         </div>
-                    </article> 
+                    </article>
 
-                </div> 
+                </div>
 
-            </aside> 
-            
+            </aside>
+
             <main class="col-md-9">
 
                 <header class="border-bottom mb-4 pb-3">
@@ -129,20 +129,26 @@
                         <figure class="card card-product-grid">
                             <div class="img-wrap">
                                 <a href="{{ product.get_url }}"><img src="{{ product.images.url }}"></a>
-                            </div> 
+                            </div>
                             <figcaption class="info-wrap">
                                 <div class="fix-height">
                                     <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
                                     <div class="price-wrap mt-2">
-                                        <span class="price">$ {{ product.price }}</span>                                       
-                                    </div> 
+                                        <span class="price">$ {{ product.price }}</span>
+                                    </div>
                                 </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                                {% if product.stock <= 0 %} <h5 class="text-danger">Out of Stock</h5>
+                                    {% else %}
+                                    <a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-primary"> <span
+                                            class="text">Add to cart</span>
+                                        <i class="fas fa-shopping-cart"></i> </a>
+                                    {% endif %}
+                                    <!-- <a href="#" class="btn btn-block btn-primary">Add to cart </a> -->
                             </figcaption>
                         </figure>
-                    </div> 
+                    </div>
                     {% endfor %}
-                </div> 
+                </div>
 
 
                 <nav class="mt-4" aria-label="Page navigation sample">
@@ -155,11 +161,11 @@
                     </ul>
                 </nav>
 
-            </main> 
+            </main>
 
         </div>
 
-    </div> 
+    </div>
 </section>
 
 {% endblock %}
