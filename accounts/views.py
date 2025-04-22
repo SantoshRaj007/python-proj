@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+import requests
 
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
