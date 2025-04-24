@@ -12,7 +12,7 @@
                 <article class="card mb-2">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Billing Address</h4>
-                        <form action="" method="POST">
+                        <form action="{% url 'place_order' %}" method="POST">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="form-group col-sm-6">
@@ -21,58 +21,59 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label>Last name</label>
-                                    <input type="text" name="last_name" placeholder="Last Name" class="form-control">
+                                    <input type="text" name="last_name" placeholder="Last Name" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label>Email</label>
-                                    <input type="email" placeholder="example@gmail.com" class="form-control">
+                                    <input type="email" name="email" placeholder="example@gmail.com" class="form-control" required>
                                 </div>                                
                                 <div class="form-group col-sm-6">
                                     <label>Phone Number</label>
-                                    <input type="number" placeholder="Phone Number" name="phone_number" class="form-control">
+                                    <input type="number" placeholder="Phone Number" name="phone" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label>Address Line-1</label>
-                                    <input type="text" name="address" class="form-control">
+                                    <input type="text" name="address_line_1" class="form-control" required>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label>Address Line-2</label>
-                                    <input type="text" name="address" class="form-control">
+                                    <input type="text" name="address_line_2" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label>City</label>
-                                    <input type="text" placeholder="Type here" class="form-control">
+                                    <input type="text" placeholder="Type here" name="city" class="form-control" required>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label>State</label>
-                                    <input type="text" placeholder="Type here" class="form-control">
+                                    <input type="text" placeholder="Type here" name="state" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label>Postal Code</label>
-                                    <input type="number" placeholder="Type here" class="form-control">
+                                    <input type="number" name="postal_code" placeholder="Type here" class="form-control" required>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label>Country*</label>
-                                    <select name="" class="form-control">
-                                        <option value="">India</option>
-                                        <option value="">United States</option>
-                                        <option value="">France</option>
-                                        <option value="">Italy</option>
+                                    <select name="country" class="form-control">
+                                        <option selected>Select Country</option>
+                                        <option value="india">India</option>
+                                        <option value="usa">United States</option>
+                                        <option value="france">France</option>
+                                        <option value="italy">Italy</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label>Order Note</label>
-                                    <textarea type="text" placeholder="Type here" rows="2" class="form-control"></textarea>
+                                    <textarea type="text" name="order_note" placeholder="Type here" rows="2" class="form-control"></textarea>
                                 </div>
                             </div>                        
                     </div> 
