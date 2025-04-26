@@ -1,12 +1,51 @@
 import datetime
+import json
 from django.shortcuts import redirect, render
 from carts.models import CartItem
+from store.models import Product
 from .forms import OrderForm
-from .models import Order
+from .models import Order, OrderProduct, Payment
 
 # Create your views here.
 
 def payments(request):
+    body = json.loads(request.body)
+    order = Order.objects.get(user=request.user, is_ordered=False, order_number=body['orderID'])
+
+    payment = Payment(
+        user = request.user,
+        payment_id = body['transID'],
+        payment_method = body['paymentMethod'],
+        amount_paid = order.order_total,
+        status = body['status'],
+    )
+    payment.save()
+    order.payment = payment
+    order.is_ordered = True
+    order.save()
+
+    # Move the cart items to Order Products table
+    cart_items = CartItem.objects.filter(user=request.user)
+
+    for item in cart_items:
+        order_product = OrderProduct()
+        order_product.order_id = order.id
+        order_product.payment = payment
+        order_product.user_id = request.user.id
+        order_product.product_id = item.product_id
+        order_product.quantity = item.quantity
+        order_product.product_price = item.product.price
+        order_product.ordered = True
+        order_product.save()
+
+        # Reduce the quantity of the sold products from the stock
+        # product_variation = item.variations.all()
+        # product_variation = ','.join(str(i) for i in product_variation)
+        # product = Product.objects.get(id=item.product_id)
+        # product.stock -= item.quantity
+        # product.save()
+
+
     return render(request, 'orders/payments.html')
 
 def place_order(request, total=0, quantity=0,):
