@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from carts.models import CartItem
 from carts.views import _cart_id
 from category.models import Category
+from orders.models import OrderProduct
 from store.forms import ReviewForm
 from .models import Product, ReviewRating
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -40,10 +41,24 @@ def product_detail(request, category_slug, product_slug):
         single_product = Product.objects.get(category__slug=category_slug, slug=product_slug)
         in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
     except Exception as e:
-        raise e    
+        raise e 
+
+    if request.user.is_authenticated:
+        try:
+            orderproduct = OrderProduct.objects.filter(user=request.user, product_id=single_product.id).exists()
+        except OrderProduct.DoesNotExist:
+            orderproduct = None
+    else:
+        orderproduct = None
+
+    # Get the reviews
+    reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
+
     context = {
         'single_product': single_product,
         'in_cart': in_cart,
+        'orderproduct': orderproduct,
+        'reviews': reviews,
     }
     return render(request, 'store/product_detail.html', context)
 
