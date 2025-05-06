@@ -27,7 +27,11 @@
                             <div class="col-md-6">
                                 <div class="card text-center">
                                     <div class="card-body">
-                                        <img src="{{ userprofile.profile_picture.url }}" alt="User Profile" width="50" height="50" class="rounded-circle">
+                                        {% if userprofile.profile_picture %}
+                                            <img src="{{ userprofile.profile_picture.url }}" alt="User Profile" width="50" height="50" class="rounded-circle">
+                                        {% else %}
+                                            <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Demo Profile" width="50" height="50" class="rounded-circle">
+                                        {% endif %}
                                         <p class="mb-0">{{ user.email }}</p>
                                         <p>{{ user.phone_number }}</p>
                                     </div>
